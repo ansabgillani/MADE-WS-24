@@ -1,0 +1,81 @@
+// Exercise 2
+
+// Data Source: 
+// https://www.govdata.de/web/guest/suchen/-/details/stadt-neuss-baumpflanzungen-2023
+
+// Returned data from source:
+// lfd_nr;stadtteil;standort;baumart_botanisch;id;baumfamilie
+
+// Data Destination:
+// SQLite database called “trees.sqlite”, in the table “trees”
+
+// Columns:
+// lfd_nr, stadtteil, standort, baumart_botanisch, id, baumfamilie
+
+// SQLite types used:
+// Integer, Stadttiel (Text st. with Vogelsang), Text, Text, Geopointid (Text st. with valid geo id), Text
+
+
+pipeline TreesPipeline{
+
+    TreesHttpExtractor
+        ->TreesTextFileInterpreter
+        ->TreesCSVInterpreter
+        ->TreesColumnDeleter
+        ->TreesTableInterpreter
+        ->TreesLoader;
+
+
+    block TreesHttpExtractor oftype HttpExtractor {
+        url: "https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/stadt-neuss-herbstpflanzung-2023/exports/csv";
+    }
+
+    block TreesTextFileInterpreter oftype TextFileInterpreter { }
+
+    block TreesCSVInterpreter oftype CSVInterpreter {
+        delimiter: ";";
+    }
+
+    block TreesColumnDeleter oftype ColumnDeleter {
+        delete: [column E];
+    }
+
+    constraint VogelsangRegexConstraint oftype RegexConstraint {
+
+        regex: /^Vogelsang/;
+    }
+
+    valuetype stadttiel oftype text {
+        constraints: [
+            VogelsangRegexConstraint,
+        ];
+    }
+
+    constraint GeoPointsRegexConstraint oftype RegexConstraint {
+        regex: /^(\d{1,3}\.\d+),\s(\d{1,3}\.\d+)$/;
+    }
+
+    valuetype geopointid oftype text {
+        constraints: [
+            GeoPointsRegexConstraint,
+        ];
+    }
+
+    block TreesTableInterpreter oftype TableInterpreter {
+        header: true;
+        columns: [
+            "lfd_nr" oftype integer,
+            "stadtteil" oftype stadttiel,
+            "standort" oftype text,
+            "baumart_botanisch" oftype text,
+            "id" oftype geopointid,
+            "baumfamilie" oftype text
+        ];
+    }
+
+    block TreesLoader oftype SQLiteLoader {
+        table: "trees";
+        file: "./trees.sqlite";
+    }
+
+}
