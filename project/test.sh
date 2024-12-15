@@ -3,7 +3,7 @@
 set -e  # Exit immediately on error
 
 echo "Running pipeline.sh..."
-bash pipeline.sh
+bash ./pipeline.sh
 
 DB_FILE="../data/charging_station.db"
 if [ ! -f "$DB_FILE" ]; then
