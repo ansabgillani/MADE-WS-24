@@ -32,4 +32,4 @@ jobs:
       # Runs the project build
       - name: Run the project build
         run: |
-            ./project/test.sh
+            ./project/tests.sh
