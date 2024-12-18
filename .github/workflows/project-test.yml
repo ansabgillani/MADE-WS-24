@@ -28,4 +28,6 @@ jobs:
             
       # Runs the project build
       - name: Run the project build
-        run: ./project/test.sh
+        run: |
+          ls -la
+          ./project/test.sh
