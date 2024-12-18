@@ -25,7 +25,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.11
-            
+      
+      - name: Giving executable permission
+        run: chmod +x ./project/tests.sh
+
       # Runs the project build
       - name: Run the project build
         run: |
