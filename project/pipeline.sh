@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Exit immediately if a command exits with a non-zero status
-set -e
+# # Exit immediately if a command exits with a non-zero status
+# set -e
 
-# Install all dependencies defined in Pipfile
-pipenv install
+# # Install all dependencies defined in Pipfile
+# pipenv install
 
-# Run the Python script within the pipenv environment
-pipenv run python project.py
+# # Run the Python script within the pipenv environment
+python project.py
