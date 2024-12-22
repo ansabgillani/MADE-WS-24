@@ -16,19 +16,21 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          path: main
+        uses: actions/checkout@v2
+        # with:
+        #   path: main
       
       # Install Python
       - name: Set up Python 3.11
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: 3.11
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
-      
+        run: |
+          pip install --upgrade pip
+          pip install -r ./project/requirements.txt  # Remove if you don't have a requirements.txt
+        
       - name: Giving executable permission
         run: chmod +x ./project/tests.sh
 
