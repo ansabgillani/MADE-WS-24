@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install -r ./project/requirements.txt  # Remove if you don't have a requirements.txt
+          pip install -r requirements.txt  # Remove if you don't have a requirements.txt
         
       - name: Giving executable permission
         run: chmod +x ./project/tests.sh
