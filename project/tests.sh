@@ -3,6 +3,7 @@
 set -e  # Exit immediately on error
 
 echo "Running pipeline.sh..."
+ls
 bash ./project/pipeline.sh
 
 DB_FILE="../data/charging_station.db"
