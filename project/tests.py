@@ -16,8 +16,8 @@ class TestProjectPipeline(unittest.TestCase):
     def test_db_file_exists(self):
         # self.assert(os.listdir(os.getcwd() + '/data'))
 
-        self.assertTrue(os.path.exists(os.getcwd() + db_file_path))
-        # self.assertGreater(os.path.getsize(self.db_file_path), 0)
+        self.assertTrue(os.path.exists(db_file_path))
+        self.assertGreater(os.path.getsize(self.db_file_path), 0)
 
     # def test_db_table_exist(self):
     #     conn = sqlite3.connect(self.db_file_path)
