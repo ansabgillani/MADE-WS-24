@@ -4,7 +4,6 @@ import pandas as pd
 import matplotlib.path as mplPath
 import numpy as np
 import sqlite3
-import os
 
 
 class ChargingStationPipeline:
@@ -136,27 +135,62 @@ class GeometryPipeline:
             raise e
 
 
-def data_storage_to_sqlite(data):
-    # print(os.getcwd())
-    # print(os.listdir())
-    try:
-        data = dict(sorted(data.items(), key=lambda x: x[0]))
-        conn = sqlite3.connect('./data/charging_station.db')
-        c = conn.cursor()
-        c.execute('''CREATE TABLE charging_stations (
-                        state_name VARCHAR(255),
-                        count_of_ev_charging_stations INT
-                    );
-                ''')
+class VehiclePopulationPipeline:
+    def __init__(self):
+        self.data_path = 'https://lavenderblush-walrus-833841.hostingersite.com/data/updated_vehicle_registrations.json'
+        self.data = None
 
-        for state, count in data.items():
-            c.execute(
-                f"INSERT INTO charging_stations (state_name, count_of_ev_charging_stations) VALUES ('{state}', {count});")
+    def _parse_data(self):
+        data = self._fetch_data()
+        try:
+            self.data = data
+        except Exception as e:
+            raise e
+    
+    def _fetch_data(self):
+        response = requests.get(self.data_path)
 
-        conn.commit()
-        conn.close()
-    except Exception as e:
-        raise Exception(os.getcwd())
+        if response.status_code != 200:
+            raise Exception(f"Failed to fetch data from {self.data_path}")
+
+        return response.json()
+    
+    def _clean_data(self):
+        try:
+            res = {}
+            for data_point in self.data:
+                total_count = int(data_point["Electric (EV)"].replace(",", "")) + int(data_point["Plug-In Hybrid Electric (PHEV)"].replace(",", ""))
+                res[data_point["State"]] = total_count
+            return res
+        except Exception as e:
+            raise e
+    
+    def get_data(self):
+        self._parse_data()
+        try:
+            return self._clean_data()
+        except Exception as e:
+            print(e)
+            raise e
+
+
+def data_storage_to_sqlite(state_chargin_location_count, vehicle_population_data):
+    data = dict(sorted(state_chargin_location_count.items(), key=lambda x: x[0]))
+    conn = sqlite3.connect('./data/charging_station.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE charging_stations (
+                    state_name VARCHAR(255),
+                    count_of_ev_charging_stations INT,
+                    count_of_ev_vehicles INT
+                );
+            ''')
+    for state, count in data.items():
+        vehicle_count = vehicle_population_data.get(state, 0)
+        c.execute(
+            f"INSERT INTO charging_stations (state_name, count_of_ev_charging_stations, count_of_ev_vehicles) VALUES ('{state}', {count}, {vehicle_count});")
+
+    conn.commit()
+    conn.close()
 
 
 class ProjectPipeline:
@@ -164,12 +198,14 @@ class ProjectPipeline:
     def __init__(self):
         self.charging_station_pipeline = ChargingStationPipeline()
         self.geometry_pipeline = GeometryPipeline()
+        self.vehicle_population_pipeline = VehiclePopulationPipeline()
 
     def run_pipeline(self):
         charging_station_data = self.charging_station_pipeline.get_data()
         self.geometry_pipeline.get_data()
-
-        state_count = {}
+        vehicle_population_data = self.vehicle_population_pipeline.get_data()
+        
+        state_chargin_location_count = {}
 
         for station_location in charging_station_data:
             state = self.geometry_pipeline.get_state(
@@ -177,11 +213,11 @@ class ProjectPipeline:
                 long=station_location["longitude"]
             )
             if state is not None:
-                state_count[state] = state_count.get(state, 0) + 1
+                state_chargin_location_count[state] = state_chargin_location_count.get(state, 0) + 1
             else:
                 print(f"Could not find state for location: {station_location}")
-
-        data_storage_to_sqlite(state_count)
+        # print(state_chargin_location_count)
+        data_storage_to_sqlite(state_chargin_location_count, vehicle_population_data)
 
 
 if __name__ == "__main__":
