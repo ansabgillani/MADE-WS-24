@@ -7,4 +7,7 @@
 # pipenv install
 
 # # Run the Python script within the pipenv environment
+
+echo "Running pipeline.sh..."
+ls
 python project.py
