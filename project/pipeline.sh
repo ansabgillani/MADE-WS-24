@@ -10,4 +10,4 @@
 
 echo "Running pipeline.sh..."
 ls
-python project.py
+python project/project.py
