@@ -6,7 +6,7 @@ echo "Running pipeline.sh..."
 ls
 bash ./project/pipeline.sh
 
-DB_FILE="../data/charging_station.db"
+DB_FILE="./data/charging_station.db"
 if [ ! -f "$DB_FILE" ]; then
     echo "Error: Database file '$DB_FILE' not found!"
     exit 1
