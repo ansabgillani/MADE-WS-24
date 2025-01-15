@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.path as mplPath
 import numpy as np
 import sqlite3
+import os
 
 
 class ChargingStationPipeline:
@@ -136,21 +137,25 @@ class GeometryPipeline:
 
 
 def data_storage_to_sqlite(data):
-    data = dict(sorted(data.items(), key=lambda x: x[0]))
-    conn = sqlite3.connect('../data/charging_station.db')
-    c = conn.cursor()
-    c.execute('''CREATE TABLE charging_stations (
-                    state_name VARCHAR(255),
-                    count_of_ev_charging_stations INT
-                );
-            ''')
+    try:
+        data = dict(sorted(data.items(), key=lambda x: x[0]))
+        conn = sqlite3.connect('../data/charging_station.db')
+        c = conn.cursor()
+        c.execute('''CREATE TABLE charging_stations (
+                        state_name VARCHAR(255),
+                        count_of_ev_charging_stations INT
+                    );
+                ''')
 
-    for state, count in data.items():
-        c.execute(
-            f"INSERT INTO charging_stations (state_name, count_of_ev_charging_stations) VALUES ('{state}', {count});")
+        for state, count in data.items():
+            c.execute(
+                f"INSERT INTO charging_stations (state_name, count_of_ev_charging_stations) VALUES ('{state}', {count});")
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(os.getcwd())
+        raise e
 
 
 class ProjectPipeline:
