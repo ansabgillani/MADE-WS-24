@@ -3,7 +3,7 @@ import os
 import sqlite3
 
 
-db_file_path = './data/charging_stations.db'
+db_file_path = '/data/charging_stations.db'
 class TestProjectPipeline(unittest.TestCase):
     
     expected_row_count = 50
@@ -16,7 +16,7 @@ class TestProjectPipeline(unittest.TestCase):
     def test_db_file_exists(self):
         self.assertFalse(os.listdir(os.getcwd() + '/data'))
 
-        self.assertTrue(os.path.exists(db_file_path))
+        self.assertTrue(os.path.exists(os.getcwd() + db_file_path))
         # self.assertGreater(os.path.getsize(self.db_file_path), 0)
 
     # def test_db_table_exist(self):
