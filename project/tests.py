@@ -2,10 +2,9 @@ import unittest
 import os
 import sqlite3
 
-
-db_file_path = '/data/charging_station.db'
 class TestProjectPipeline(unittest.TestCase):
     
+    db_file_path = os.getcwd() + '/data/charging_station.db'
     expected_row_count = 50
     expected_columns = [
         (0, 'state_name', 'VARCHAR(255)', 0, None, 0),
@@ -16,7 +15,7 @@ class TestProjectPipeline(unittest.TestCase):
     def test_db_file_exists(self):
         # self.assert(os.listdir(os.getcwd() + '/data'))
 
-        self.assertTrue(os.path.exists(db_file_path))
+        self.assertTrue(os.path.exists(self.db_file_path))
         self.assertGreater(os.path.getsize(self.db_file_path), 0)
 
     # def test_db_table_exist(self):
