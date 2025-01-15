@@ -137,6 +137,8 @@ class GeometryPipeline:
 
 
 def data_storage_to_sqlite(data):
+    print(os.getcwd())
+    print(os.listdir())
     try:
         data = dict(sorted(data.items(), key=lambda x: x[0]))
         conn = sqlite3.connect('../data/charging_station.db')
@@ -154,7 +156,6 @@ def data_storage_to_sqlite(data):
         conn.commit()
         conn.close()
     except Exception as e:
-        print(os.getcwd())
         raise e
 
 
