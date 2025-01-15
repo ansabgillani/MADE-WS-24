@@ -8,7 +8,7 @@ import sqlite3
 
 class ChargingStationPipeline:
     def __init__(self):
-        self.data_path = 'https://floralwhite-snail-259364.hostingersite.com/data/us_ev_charging_stations_2024.json'
+        self.data_path = 'https://lavenderblush-walrus-833841.hostingersite.com/data/us_ev_charging_stations_2024.json'
         self.data = None
 
     def _parse_data(self):
@@ -54,7 +54,7 @@ class ChargingStationPipeline:
 
 class GeometryPipeline:
     def __init__(self):
-        self.data_path = 'https://floralwhite-snail-259364.hostingersite.com/data/us_states_polygon_2020.json'
+        self.data_path = 'https://lavenderblush-walrus-833841.hostingersite.com/data/us_states_polygon_2020.json'
         self.data = None
 
         self.df_selection = None
