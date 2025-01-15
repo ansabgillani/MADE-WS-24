@@ -3,7 +3,7 @@ import os
 import sqlite3
 
 
-db_file_path = '/data/charging_stations.db'
+db_file_path = '/data/charging_station.db'
 class TestProjectPipeline(unittest.TestCase):
     
     expected_row_count = 50
