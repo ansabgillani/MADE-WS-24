@@ -156,7 +156,7 @@ def data_storage_to_sqlite(data):
         conn.commit()
         conn.close()
     except Exception as e:
-        raise e
+        raise Exception(os.getcwd())
 
 
 class ProjectPipeline:
