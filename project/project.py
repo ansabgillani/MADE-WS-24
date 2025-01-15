@@ -137,11 +137,11 @@ class GeometryPipeline:
 
 
 def data_storage_to_sqlite(data):
-    print(os.getcwd())
-    print(os.listdir())
+    # print(os.getcwd())
+    # print(os.listdir())
     try:
         data = dict(sorted(data.items(), key=lambda x: x[0]))
-        conn = sqlite3.connect('../data/charging_station.db')
+        conn = sqlite3.connect('./data/charging_station.db')
         c = conn.cursor()
         c.execute('''CREATE TABLE charging_stations (
                         state_name VARCHAR(255),
