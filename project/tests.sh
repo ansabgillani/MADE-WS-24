@@ -6,4 +6,4 @@ echo "Running test.sh..."
 bash ./project/pipeline.sh
 
 echo "Running tests..."
-python3 -m pytest project/tests.py
+python ./project/tests.py
