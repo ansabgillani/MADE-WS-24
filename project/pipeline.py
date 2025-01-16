@@ -1,14 +1,14 @@
 import requests
 import pandas as pd
-
 import matplotlib.path as mplPath
 import numpy as np
 import sqlite3
 
+MAX_RETRIES = 3
 
 class ChargingStationPipeline:
     def __init__(self):
-        self.data_path = 'https://lavenderblush-walrus-833841.hostingersite.com/data/us_ev_charging_stations_2024.json'
+        self.data_path = 'https://gold-flamingo-167771.hostingersite.com/data/us_ev_charging_stations_2024.json'
         self.data = None
 
     def _parse_data(self):
@@ -20,6 +20,10 @@ class ChargingStationPipeline:
 
     def _fetch_data(self):
         response = requests.get(self.data_path)
+
+        retries = 0
+        while response.status_code != 200 and retries < MAX_RETRIES:
+            response = requests.get(self.data_path)
 
         if response.status_code != 200:
             raise Exception(f"Failed to fetch data from {self.data_path}")
@@ -54,7 +58,7 @@ class ChargingStationPipeline:
 
 class GeometryPipeline:
     def __init__(self):
-        self.data_path = 'https://lavenderblush-walrus-833841.hostingersite.com/data/us_states_polygon_2020.json'
+        self.data_path = 'https://gold-flamingo-167771.hostingersite.com/data/us_states_polygon_2020.json'
         self.data = None
 
         self.df_selection = None
@@ -68,6 +72,10 @@ class GeometryPipeline:
 
     def _fetch_data(self):
         response = requests.get(self.data_path)
+
+        retries = 0
+        while response.status_code != 200 and retries < MAX_RETRIES:
+            response = requests.get(self.data_path)
 
         if response.status_code != 200:
             raise Exception(f"Failed to fetch data from {self.data_path}")
@@ -137,7 +145,7 @@ class GeometryPipeline:
 
 class VehiclePopulationPipeline:
     def __init__(self):
-        self.data_path = 'https://lavenderblush-walrus-833841.hostingersite.com/data/updated_vehicle_registrations.json'
+        self.data_path = 'https://gold-flamingo-167771.hostingersite.com/data/updated_vehicle_registrations.json'
         self.data = None
 
     def _parse_data(self):
@@ -149,6 +157,10 @@ class VehiclePopulationPipeline:
     
     def _fetch_data(self):
         response = requests.get(self.data_path)
+
+        retries = 0
+        while response.status_code != 200 and retries < MAX_RETRIES:
+            response = requests.get(self.data_path)
 
         if response.status_code != 200:
             raise Exception(f"Failed to fetch data from {self.data_path}")
