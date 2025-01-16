@@ -8,7 +8,7 @@ MAX_RETRIES = 3
 
 class ChargingStationPipeline:
     def __init__(self):
-        self.data_path = 'https://gold-flamingo-167771.hostingersite.com/data/us_ev_charging_stations_2024.json'
+        self.data_path = 'https://lavenderblush-walrus-833841.hostingersite.com/data/us_ev_charging_stations_2024.json'
         self.data = None
 
     def _parse_data(self):
@@ -59,7 +59,7 @@ class ChargingStationPipeline:
 
 class GeometryPipeline:
     def __init__(self):
-        self.data_path = 'https://gold-flamingo-167771.hostingersite.com/data/us_states_polygon_2020.json'
+        self.data_path = 'https://lavenderblush-walrus-833841.hostingersite.com/data/us_states_polygon_2020.json'
         self.data = None
 
         self.df_selection = None
@@ -147,7 +147,7 @@ class GeometryPipeline:
 
 class VehiclePopulationPipeline:
     def __init__(self):
-        self.data_path = 'https://gold-flamingo-167771.hostingersite.com/data/updated_vehicle_registrations.json'
+        self.data_path = 'https://lavenderblush-walrus-833841.hostingersite.com/data/updated_vehicle_registrations.json'
         self.data = None
 
     def _parse_data(self):
