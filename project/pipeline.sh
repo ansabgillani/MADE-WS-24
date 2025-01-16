@@ -9,5 +9,5 @@
 # # Run the Python script within the pipenv environment
 
 echo "Running pipeline.sh..."
-python project/project.py
+python project/pipeline.py
 echo "Pipeline completed successfully!"
