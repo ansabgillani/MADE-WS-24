@@ -216,7 +216,7 @@ class ProjectPipeline:
                 state_chargin_location_count[state] = state_chargin_location_count.get(state, 0) + 1
             else:
                 print(f"Could not find state for location: {station_location}")
-        # print(state_chargin_location_count)
+
         data_storage_to_sqlite(state_chargin_location_count, vehicle_population_data)
 
 
