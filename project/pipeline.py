@@ -24,6 +24,7 @@ class ChargingStationPipeline:
         retries = 0
         while response.status_code != 200 and retries < MAX_RETRIES:
             response = requests.get(self.data_path)
+            retries += 1
 
         if response.status_code != 200:
             raise Exception(f"Failed to fetch data from {self.data_path}")
@@ -76,6 +77,7 @@ class GeometryPipeline:
         retries = 0
         while response.status_code != 200 and retries < MAX_RETRIES:
             response = requests.get(self.data_path)
+            retries += 1
 
         if response.status_code != 200:
             raise Exception(f"Failed to fetch data from {self.data_path}")
@@ -161,6 +163,7 @@ class VehiclePopulationPipeline:
         retries = 0
         while response.status_code != 200 and retries < MAX_RETRIES:
             response = requests.get(self.data_path)
+            retries += 1
 
         if response.status_code != 200:
             raise Exception(f"Failed to fetch data from {self.data_path}")
