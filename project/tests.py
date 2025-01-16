@@ -13,6 +13,7 @@ class TestProjectPipeline(unittest.TestCase):
     ]
     
     def test_db_file_exists(self):
+        self.assertFalse(os.listdir(os.getcwd()+ '/data'))
         self.assertTrue(os.path.exists(self.db_file_path))
         self.assertGreater(os.path.getsize(self.db_file_path), 0)
 
